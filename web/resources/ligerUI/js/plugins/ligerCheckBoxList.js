@@ -28,6 +28,7 @@
         ajaxContentType: null,
         ajaxType : 'post',
         onSuccess: null,
+        onSelect: null,
         onError: null,  
         css: null,               //附加css  
         value: null,            //值 

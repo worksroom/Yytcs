@@ -7,6 +7,10 @@ import com.youguu.core.util.ParamUtil;
 import com.youguu.user.pojo.SysUser;
 import com.youguu.user.service.ISysUserService;
 import com.youguu.util.ResponseUtil;
+import com.yyt.print.rpc.client.YytRpcClientFactory;
+import com.yyt.print.rpc.client.product.IProductRpcService;
+import com.yyt.print.rpc.client.user.IUserRpcService;
+import com.yyt.print.user.response.AuthResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -26,6 +30,8 @@ public class LoginAction extends DispatchAction {
 
     @Resource
     private ISysUserService sysUserService;
+    IUserRpcService userRpcService = YytRpcClientFactory.getUserRpcService();
+
 
     public ActionForward login(ActionMapping mapping, ActionForm form,
                                HttpServletRequest request, HttpServletResponse response) {
@@ -35,19 +41,21 @@ public class LoginAction extends DispatchAction {
         String username = ParamUtil.CheckParam(request.getParameter("username"), "");
         String password = ParamUtil.CheckParam(request.getParameter("password"), "");
 
-        SysUser sysUser = sysUserService.findByUserLoginName(username);
+        String ip = this.getIpAddr(request);
+
+        AuthResponse authResponse = userRpcService.login(username, password, 5, ip);
 
         JSONObject result = new JSONObject();
-        if(sysUser==null){
+        if(authResponse==null){
             result.put("success", false);
             result.put("message", "登录账户不正确");
         }
 
-        if(sysUser.getUserPassword().equals(password)){
+        if(authResponse.getStatus().equals("0000")){
             HttpSession session = request.getSession();
             // 用户登录session数据保存
-            session.setAttribute("uid", sysUser.getUserLoginName());
-            session.setAttribute("uname", sysUser.getUserName());
+            session.setAttribute("uid", authResponse.getUserId());
+            session.setAttribute("uname", authResponse.getNickName());
 
             result.put("success", true);
             result.put("message", "登录成功");
@@ -55,7 +63,7 @@ public class LoginAction extends DispatchAction {
             sysUserService.updateLoginTime(username);
         } else {
             result.put("success", false);
-            result.put("message", "登录密码错误");
+            result.put("message", authResponse.getMessage());
         }
 
 
@@ -85,5 +93,19 @@ public class LoginAction extends DispatchAction {
         request.getRequestDispatcher("/login.jsp").forward(request, response);
 
         return null;
+    }
+
+    private String getIpAddr(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
     }
 }

@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
-    <title>系统登录</title>
+    <title>商户后台管理系统</title>
 
     <script src="resources/js/config.js" type="text/javascript"></script>
     <script src="resources/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>

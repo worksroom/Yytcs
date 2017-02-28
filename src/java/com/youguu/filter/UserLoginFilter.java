@@ -16,7 +16,7 @@ public class UserLoginFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 
 		String indexPath = ((HttpServletRequest) req).getContextPath()
-				+ ParamUtil.CheckParam(config.getInitParameter("indexPath"), "/index.jsp");
+				+ ParamUtil.CheckParam(config.getInitParameter("indexPath"), "/login.jsp");
 
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) rep;
@@ -30,8 +30,8 @@ public class UserLoginFilter implements Filter {
 		}
 		HttpSession session = request.getSession();
 		if (isFilter) {// 获取url 如果为login相关的路径
-			String uid = (String) session.getAttribute("uid");
-			if (uid == null) { // 未登录
+			int uid = (int) session.getAttribute("uid");
+			if (uid < 1) { // 未登录
 				response.sendRedirect(indexPath);
 			} else {
 				chain.doFilter(request, response);

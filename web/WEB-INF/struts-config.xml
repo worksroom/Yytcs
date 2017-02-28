@@ -10,6 +10,11 @@
 
 	<action-mappings>
 		<action parameter="method" path="/loginAction" scope="request" type="com.youguu.user.action.LoginAction"/>
+		<action parameter="method" path="/manager/swfupload" scope="request" type="com.youguu.product.action.SwfUploadAction"/>
+		<action parameter="method" path="/manager/product" scope="request" type="com.youguu.product.action.ProductAction"/>
+		<action parameter="method" path="/manager/storeLocation" scope="request" type="com.youguu.product.action.StoreLocationAction"/>
+		<action parameter="method" path="/manager/fareMould" scope="request" type="com.youguu.product.action.FareMouldAction"/>
+		<action parameter="method" path="/manager/goods" scope="request" type="com.youguu.product.action.MallGoodsAction"/>
 	</action-mappings>
 	
 	<controller processorClass="org.springframework.web.struts.DelegatingRequestProcessor"/>

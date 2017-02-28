@@ -88,11 +88,13 @@ img {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #ddd;
+    text-align: left;
 }
 
 .bodytable1 td {
     line-height: 21px;
     padding-left: 2px;
+    padding-top: 2px;
     color: #135294;
     vertical-align: middle;
 }
@@ -171,6 +173,7 @@ img {
     text-indent: .3em;
     outline: 0;
     border: 1px solid #ddd;
+    text-align: left;
 }
 
 .table_title {
