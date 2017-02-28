@@ -1,13 +1,17 @@
 (function ($) {
     $.fn.SKU = function () {
         $(".div_contentlist label").bind("change", function () {
-            step.Creat_Table();
+            step.Create_Table();
         });
+    }
+
+    $.fn.InitTableData = function(data){
+        step.Update_Table(data);
     }
 
     var step = {
         //SKU信息组合
-        Creat_Table: function () {
+        Create_Table: function () {
             step.hebingFunction();
             var SKUObj = $(".Father_Title");
             var arrayTile = new Array();//标题组数
@@ -34,33 +38,46 @@
             //开始创建Table表
             if (bCheck == true) {
                 var RowsCount = 0;
-                $("#createTable").html("");
-                var table = $("<table id=\"process\" border=\"1\" cellpadding=\"1\" cellspacing=\"0\" style=\"width:100%;padding:5px;\"></table>");
-                table.appendTo($("#createTable"));
-                var thead = $("<thead></thead>");
-                thead.appendTo(table);
-                var trHead = $("<tr></tr>");
-                trHead.appendTo(thead);
-                //创建表头
-                $.each(arrayTile, function (index, item) {
-                    var td = $("<th>" + item + "</th>");
-                    td.appendTo(trHead);
-                });
-                var itemColumHead = $("<th  style=\"width:70px;\">价格</th><th style=\"width:70px;\">折扣价</th><th style=\"width:70px;\">库存</th> ");
-                itemColumHead.appendTo(trHead);
-                var tbody = $("<tbody></tbody>");
-                tbody.appendTo(table);
-                ////生成组合
-                var zuheDate = step.doExchange(arrayInfor);
-                if (zuheDate.length > 0) {
+                //$("#createTable").html("");
+
+                var table = $("#process");
+                if(table.length>0){//如果Table存在，不再创建
+
+                } else{//如果Table不存在，则创建一个Table
+                    table = $("<table id=\"process\" border=\"1\" cellpadding=\"1\" cellspacing=\"0\" style=\"width:100%;padding:5px;\"></table>");
+                    table.appendTo($("#createTable"));
+
+                    var thead = $("<thead></thead>");
+                    thead.appendTo(table);
+                    var trHead = $("<tr></tr>");
+                    trHead.appendTo(thead);
+                    //创建表头
+                    $.each(arrayTile, function (index, item) {
+                        var td = $("<th>" + item + "</th>");
+                        td.appendTo(trHead);
+                    });
+                    var itemColumHead = $("<th  style=\"width:70px;\">价格</th><th style=\"width:70px;\">折扣价</th><th style=\"width:70px;\">库存</th> ");
+                    itemColumHead.appendTo(trHead);
+
+                    var tbody = $("<tbody></tbody>");
+                    tbody.appendTo(table);
+                }
+
+                var tbody = table.find("tbody");
+                //生成组合
+                var zuheData = step.doExchange(arrayInfor);
+                step.Delete_Row(zuheData);
+                if (zuheData.length > 0) {
                     //创建行
-                    $.each(zuheDate, function (index, item) {
+                    $.each(zuheData, function (index, item) {
                         var td_array = item.split(",");
                         var tr = $("<tr></tr>");
-                        tr.appendTo(tbody);
+
+                        var rowid = "";
                         $.each(td_array, function (i, values) {
                             var td = $("<td>" + values.split("|")[1] + "<input name=\""+values.split("|")[0]+"\" class=\"l-text\" type=\"hidden\" value=\"" + values.split("|")[0] + "\"></td>");
                             td.appendTo(tr);
+                            rowid += values.split("|")[0];
                         });
                         var td1 = $("<td ><input name=\"sku_price\" class=\"l-text\" type=\"text\" value=\"\"></td>");
                         td1.appendTo(tr);
@@ -68,6 +85,119 @@
                         td2.appendTo(tr);
                         var td3 = $("<td ><input name=\"sku_inventory\" class=\"l-text\" type=\"text\" value=\"\"></td>");
                         td3.appendTo(tr);
+
+                        var isAppend = true;
+                        tbody.find("tr").each(function(){
+                            if(this.id==rowid){
+                                isAppend = false;
+                                return false;
+                            }
+                        });
+
+                        if(isAppend){
+                            $(tr).attr("id", rowid);
+                            tr.appendTo(tbody);
+                        }
+                    });
+                }
+                //结束创建Table表
+                arrayColumn.pop();//删除数组中最后一项
+                //合并单元格
+                $(table).mergeCell({
+                    // 目前只有cols这么一个配置项, 用数组表示列的索引,从0开始
+                    cols: arrayColumn
+                });
+            } else{
+                //未全选中,清除表格
+                document.getElementById('createTable').innerHTML="";
+            }
+        },//修改
+        Update_Table: function (data) {
+            step.hebingFunction();
+            var SKUObj = $(".Father_Title");
+            var arrayTile = new Array();//标题组数
+            var arrayInfor = new Array();//盛放每组选中的CheckBox值的对象，数据结构id_value
+            var arrayColumn = new Array();//指定列，用来合并哪些列
+            var bCheck = true;//是否全选
+            var columnIndex = 0;
+            $.each(SKUObj, function (i, item){
+                arrayColumn.push(columnIndex);
+                columnIndex++;
+                arrayTile.push(SKUObj.find("li").eq(i).html().replace("：", ""));
+                var itemName = "Father_Item" + i;
+                //选中的CHeckBox取值
+                var order = new Array();
+                $("." + itemName + " input[type=checkbox]:checked").each(function (){
+                    order.push($(this).attr("id")+"|"+$(this).val());//格式:key_{proId}_{proValueId}|{proValue}
+                });
+                arrayInfor.push(order);
+                if (order.join() == ""){
+                    bCheck = false;
+                }
+                //var skuValue = SKUObj.find("li").eq(index).html();
+            });
+            //开始创建Table表
+            if (bCheck == true) {
+                var RowsCount = 0;
+                //$("#createTable").html("");
+
+                var table = $("#process");
+                if(table.length>0){//如果Table存在，不再创建
+
+                } else{//如果Table不存在，则创建一个Table
+                    table = $("<table id=\"process\" border=\"1\" cellpadding=\"1\" cellspacing=\"0\" style=\"width:100%;padding:5px;\"></table>");
+                    table.appendTo($("#createTable"));
+
+                    var thead = $("<thead></thead>");
+                    thead.appendTo(table);
+                    var trHead = $("<tr></tr>");
+                    trHead.appendTo(thead);
+                    //创建表头
+                    $.each(arrayTile, function (index, item) {
+                        var td = $("<th>" + item + "</th>");
+                        td.appendTo(trHead);
+                    });
+                    var itemColumHead = $("<th  style=\"width:70px;\">价格</th><th style=\"width:70px;\">折扣价</th><th style=\"width:70px;\">库存</th> ");
+                    itemColumHead.appendTo(trHead);
+
+                    var tbody = $("<tbody></tbody>");
+                    tbody.appendTo(table);
+                }
+
+                var tbody = table.find("tbody");
+                //生成组合
+                var zuheData = step.doExchange(arrayInfor);
+                if (zuheData.length > 0) {
+                    //创建行
+                    $.each(zuheData, function (index, item) {
+                        var td_array = item.split(",");
+                        var tr = $("<tr></tr>");
+
+                        var rowid = "";
+                        $.each(td_array, function (i, values) {
+                            var td = $("<td>" + values.split("|")[1] + "<input name=\""+values.split("|")[0]+"\" class=\"l-text\" type=\"hidden\" value=\"" + values.split("|")[0] + "\"></td>");
+                            td.appendTo(tr);
+                            rowid += values.split("|")[0];
+                        });
+                        var td1 = $("<td ><input name=\"sku_price\" class=\"l-text\" type=\"text\" value=\""+data.price+"\"></td>");
+                        td1.appendTo(tr);
+                        var td2 = $("<td ><input name=\"sku_discount_price\" class=\"l-text\" type=\"text\" value=\""+data.salePrice+"\"></td>");
+                        td2.appendTo(tr);
+                        var td3 = $("<td ><input name=\"sku_inventory\" class=\"l-text\" type=\"text\" value=\""+data.storeNum+"\"></td>");
+                        td3.appendTo(tr);
+
+                        var isAppend = true;
+                        tbody.find("tr").each(function(){
+                            if(this.id==rowid){
+                                isAppend = false;
+                                return false;
+                            }
+                        });
+
+                        if(isAppend){
+                            $(tr).attr("id", rowid);
+                            tr.appendTo(tbody);
+                        }
                     });
                 }
                 //结束创建Table表
@@ -82,6 +212,27 @@
                 document.getElementById('createTable').innerHTML="";
             }
         },//合并行
+        Delete_Row: function(zuheData){
+            var rowIdArray = new Array();
+            $.each(zuheData, function (index, item) {
+                var td_array = item.split(",");
+
+                var rowid = "";
+                $.each(td_array, function (i, values) {
+                    rowid += values.split("|")[0];
+                });
+                rowIdArray.push(rowid);
+            });
+
+            $("#process").find("tbody").find("tr").each(function(){
+                //alert(this.id+","+$.inArray(this.id, rowIdArray))
+                if($.inArray(this.id, rowIdArray)<0){
+                    this.remove();
+                }
+            });
+
+
+        },
         hebingFunction: function () {
             $.fn.mergeCell = function (options) {
                 return this.each(function () {

@@ -7,6 +7,7 @@ import com.youguu.core.util.ParamUtil;
 import com.youguu.user.pojo.SysUser;
 import com.youguu.user.service.ISysUserService;
 import com.youguu.util.ResponseUtil;
+import com.yyt.print.product.pojo.ShopUser;
 import com.yyt.print.rpc.client.YytRpcClientFactory;
 import com.yyt.print.rpc.client.product.IProductRpcService;
 import com.yyt.print.rpc.client.user.IUserRpcService;
@@ -31,7 +32,7 @@ public class LoginAction extends DispatchAction {
     @Resource
     private ISysUserService sysUserService;
     IUserRpcService userRpcService = YytRpcClientFactory.getUserRpcService();
-
+    IProductRpcService productRpcService = YytRpcClientFactory.getProductRpcService();
 
     public ActionForward login(ActionMapping mapping, ActionForm form,
                                HttpServletRequest request, HttpServletResponse response) {
@@ -56,6 +57,9 @@ public class LoginAction extends DispatchAction {
             // 用户登录session数据保存
             session.setAttribute("uid", authResponse.getUserId());
             session.setAttribute("uname", authResponse.getNickName());
+
+            ShopUser shopUser = productRpcService.getShopIdFromUid(authResponse.getUserId());
+            session.setAttribute("shopId", shopUser.getShopId());
 
             result.put("success", true);
             result.put("message", "登录成功");

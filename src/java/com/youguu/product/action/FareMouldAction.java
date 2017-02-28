@@ -58,9 +58,8 @@ public class FareMouldAction extends DispatchAction {
         String price = ParamUtil.CheckParam(request.getParameter("price"), "");
 
         FareMould fareMould = new FareMould();
-        int userId = (int)request.getSession().getAttribute("uid");
-        ShopUser shopUser = productRpcService.getShopIdFromUid(userId);
-        fareMould.setShopId(shopUser.getShopId());
+        int shopId = (int)request.getSession().getAttribute("shopId");
+        fareMould.setShopId(shopId);
         fareMould.setName(name);
         fareMould.setType(type);
         fareMould.setPrice(Double.parseDouble(price));

@@ -71,7 +71,6 @@
 
         function updateData(){
             var row = grid.getSelectedRow();
-            alert(row.id);
             parent.f_addTab("tab_goods_"+row.id, row.name, "manager/product/updatePublishProduct.jsp?goodsId="+row.id+"&categoryId="+row.classId);
         }
 

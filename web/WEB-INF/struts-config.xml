@@ -15,6 +15,7 @@
 		<action parameter="method" path="/manager/storeLocation" scope="request" type="com.youguu.product.action.StoreLocationAction"/>
 		<action parameter="method" path="/manager/fareMould" scope="request" type="com.youguu.product.action.FareMouldAction"/>
 		<action parameter="method" path="/manager/goods" scope="request" type="com.youguu.product.action.MallGoodsAction"/>
+		<action parameter="method" path="/manager/shop" scope="request" type="com.youguu.shop.action.ShopAction"/>
 	</action-mappings>
 	
 	<controller processorClass="org.springframework.web.struts.DelegatingRequestProcessor"/>

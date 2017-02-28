@@ -60,9 +60,8 @@ public class StoreLocationAction extends DispatchAction {
         String sName = ParamUtil.CheckParam(request.getParameter("sName"), "");
 
         StoreLocation location = new StoreLocation();
-        int userId = (int)request.getSession().getAttribute("uid");
-        ShopUser shopUser = productRpcService.getShopIdFromUid(userId);
-        location.setShopId(shopUser.getShopId());
+        int shopId = (int)request.getSession().getAttribute("shopId");
+        location.setShopId(shopId);
         location.setFCode(fCode);
         location.setFName(fName);
         location.setSCode(sCode);

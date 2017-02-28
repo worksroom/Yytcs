@@ -36,12 +36,10 @@
     <script src="resources/ligerUI/js/ligerui.all.js" type="text/javascript"></script>
 
     <script type="text/javascript">
+
+        var editor;
         var prodata;
         $(function () {
-            //初始化富文本编辑器
-            KindEditor.ready(function(K) {
-                window.editor = K.create('#editor_id');
-            });
 
             //初始化商品属性区域
             initProductPro();
@@ -105,7 +103,7 @@
 
                 $.ajax({
                     type: 'post',
-                    url: 'manager/goods.do?method=saveGoods&'+params,
+                    url: 'manager/goods.do?method=updateGoods&'+params,
                     data: {
                         "product_des": editor.html(),
                         "sku_list": JSON.stringify(sku_list),
@@ -331,7 +329,60 @@
                     });
                 },
                 success: function(data) {
-                    alert(JSON.stringify(data));
+
+                    var mallGoods = data.mallGoods;
+                    var bpro = data.bpro;
+                    var plist = data.list;
+                    var exts = data.exts;
+
+                    $("#product_name").val(mallGoods.name);
+                    //初始化富文本编辑器
+                    KindEditor.ready(function(K) {
+                        editor = K.create('#editor_id');
+                        editor.html(mallGoods.des);
+                    });
+
+                    //货品基本属性区域赋值
+                    $(bpro).each(function(){
+                        $("#pro_"+this.classProId).val(this.classProValue);
+                    });
+
+                    //销售属性设置
+                    $(plist).each(function(){
+                        var product = this.mallProduct;
+                        var saleProList = this.salePro;
+
+                        $(saleProList).each(function(){
+                            var classProId = this.classProId;
+                            var classProValueId = this.classProValueId;
+                            var chx_key = "key_"+classProId+"_"+classProValueId;
+                            $("#"+chx_key).attr("checked",true);
+                            $("#"+chx_key).attr("disabled",true);
+                        });
+
+                        $().InitTableData(product);
+                    });
+
+                    //货品图片设置
+                    var imgArray = JSON.parse(mallGoods.img);
+                    var i=1;
+                    $(imgArray).each(function(){
+                        $("#img_"+i)[0].src = this;
+                        i++;
+                    });
+
+                    //仓库地址，运费模板
+                    $(exts).each(function(){
+                        //库存位置
+                        if(this.type==1){
+                            $("#address_id").val(this.thridId);
+                        }
+
+                        //运费模板
+                        if(this.type==2){
+                            $("#fare_id").val(this.thridId);
+                        }
+                    });
                 }
             });
         }
@@ -340,6 +391,8 @@
 <body style="height: 100%; overflow-x: hidden; overflow-y: auto;">
 
 <form id="form1" name="form1">
+
+    <input type="hidden" id="goodsId" name="goodsId" value="<%=goodsId%>"/>
     <input type="hidden" id="categoryId" name="categoryId" value="<%=categoryId%>"/>
     <table style="width: 900px; margin: 2px;" class="bodytable1">
         <tr>

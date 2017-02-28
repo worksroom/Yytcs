@@ -450,6 +450,15 @@
                 </li>
             </ul>
         </div>
+
+        <div title="店铺管理">
+            <ul class="menulist">
+                <li url="manager/shop/shopUserList.jsp" tabid="tabid4" menuno="4" class=""><img src="images/icon/61.png"><span>店员管理</span>
+                    <div class="menuitem-l"></div>
+                    <div class="menuitem-r"></div>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div position="center" id="framecenter">
