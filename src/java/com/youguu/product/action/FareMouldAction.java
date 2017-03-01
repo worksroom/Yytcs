@@ -35,10 +35,9 @@ public class FareMouldAction extends DispatchAction {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
-        int userId = (int)request.getSession().getAttribute("uid");
-        ShopUser shopUser = productRpcService.getShopIdFromUid(userId);
+        int shopId = (int)request.getSession().getAttribute("shopId");
 
-        List<FareMould> list = productRpcService.findFareMoulds(shopUser.getShopId());
+        List<FareMould> list = productRpcService.findFareMoulds(shopId);
 
         String gridJson = LigerUiToGrid.toGridJSON(list, new String[]{"id", "shopId", "name", "type", "price", "num", "updateTime", "createTime"}, null);
 

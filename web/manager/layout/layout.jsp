@@ -415,24 +415,24 @@
 
         <div title="商品上架">
             <ul class="menulist">
-                <li url="manager/product/categorySelect.jsp" tabid="tabid4" menuno="4" class=""><img src="images/icon/61.png"><span>货品上架</span>
+                <li url="manager/product/categorySelect.jsp" tabid="tabid1-4" menuno="4" class=""><img src="images/icon/61.png"><span>货品上架</span>
                     <div class="menuitem-l"></div>
                     <div class="menuitem-r"></div>
                 </li>
 
-                <li url="manager/product/goodsList.jsp" tabid="tabid5" menuno="5" class=""><img src="images/icon/38.png"><span>货品查询</span>
+                <li url="manager/product/goodsList.jsp" tabid="tabid1-5" menuno="5" class=""><img src="images/icon/38.png"><span>货品查询</span>
 
                     <div class="menuitem-l"></div>
                     <div class="menuitem-r"></div>
                 </li>
 
-                <li url="manager/product/storeLocationList.jsp" tabid="tabid6" menuno="6" class=""><img
+                <li url="manager/product/storeLocationList.jsp" tabid="tabid1-6" menuno="6" class=""><img
                         src="images/icon/38.png"><span>仓库管理</span>
 
                     <div class="menuitem-l"></div>
                     <div class="menuitem-r"></div>
                 </li>
-                <li url="manager/product/fareMouldList.jsp" tabid="tabid7" menuno="7" class=""><img
+                <li url="manager/product/fareMouldList.jsp" tabid="tabid1-7" menuno="7" class=""><img
                         src="images/icon/67.png"><span>运费模板管理</span>
 
                     <div class="menuitem-l"></div>
@@ -444,7 +444,7 @@
 
         <div title="订单管理">
             <ul class="menulist">
-                <li url="crm/Customer/customer.aspx" tabid="tabid4" menuno="4" class=""><img src="images/icon/61.png"><span>用户下单查询</span>
+                <li url="crm/Customer/customer.aspx" tabid="tabid2-4" menuno="4" class=""><img src="images/icon/61.png"><span>用户下单查询</span>
                     <div class="menuitem-l"></div>
                     <div class="menuitem-r"></div>
                 </li>
@@ -453,7 +453,7 @@
 
         <div title="店铺管理">
             <ul class="menulist">
-                <li url="manager/shop/shopUserList.jsp" tabid="tabid4" menuno="4" class=""><img src="images/icon/61.png"><span>店员管理</span>
+                <li url="manager/shop/shopUserList.jsp" tabid="tabid3-4" menuno="4" class=""><img src="images/icon/61.png"><span>店员管理</span>
                     <div class="menuitem-l"></div>
                     <div class="menuitem-r"></div>
                 </li>

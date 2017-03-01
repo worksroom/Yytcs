@@ -36,10 +36,9 @@ public class StoreLocationAction extends DispatchAction {
                                            HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        int userId = (int)request.getSession().getAttribute("uid");
-        ShopUser shopUser = productRpcService.getShopIdFromUid(userId);
+        int shopId = (int)request.getSession().getAttribute("shopId");
 
-        List<StoreLocation> list = productRpcService.findStoreLocations(shopUser.getShopId());
+        List<StoreLocation> list = productRpcService.findStoreLocations(shopId);
 
         String gridJson = LigerUiToGrid.toGridJSON(list, new String[]{"id", "shopId", "fCode", "fName", "sCode", "sName", "createTime", "updateTime"}, null);
 

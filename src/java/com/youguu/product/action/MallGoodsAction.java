@@ -131,12 +131,11 @@ public class MallGoodsAction extends DispatchAction {
          * 设置货品基本信息
          */
         mallGoods.setName(product_name);
-        int userId = (int)request.getSession().getAttribute("uid");
-        ShopUser shopUser = productRpcService.getShopIdFromUid(userId);
-        mallGoods.setShopId(shopUser.getShopId());
+        int shopId = (int)request.getSession().getAttribute("shopId");
+        mallGoods.setShopId(shopId);
         mallGoods.setDes(product_des);
         mallGoods.setClassId(categoryId);
-        mallGoods.setStatus(0);//0:待审
+        mallGoods.setStatus(99);//99:待审
         mallGoods.setImg(img_list);
         mallGoods.setCreateTime(new Date());
 
@@ -173,6 +172,7 @@ public class MallGoodsAction extends DispatchAction {
                 String sku_discount_price = sku.getString("sku_discount_price");//折扣价
 
                 MallProduct mallProduct = new MallProduct();
+                int userId = (int)request.getSession().getAttribute("uid");
                 mallProduct.setSellUserId(userId);
                 mallProduct.setName(product_name);
                 mallProduct.setPic("");//是否需要此字段？应该加一个SKU编码字段？
@@ -298,12 +298,10 @@ public class MallGoodsAction extends DispatchAction {
          */
         mallGoods.setId(goodsId);
         mallGoods.setName(product_name);
-        int userId = (int)request.getSession().getAttribute("uid");
-        ShopUser shopUser = productRpcService.getShopIdFromUid(userId);
-        mallGoods.setShopId(shopUser.getShopId());
+        int shopId = (int)request.getSession().getAttribute("shopId");
+        mallGoods.setShopId(shopId);
         mallGoods.setDes(product_des);
         mallGoods.setClassId(categoryId);
-        mallGoods.setStatus(0);//0:待审
         mallGoods.setImg(img_list);
         mallGoods.setCreateTime(new Date());
 
@@ -342,6 +340,7 @@ public class MallGoodsAction extends DispatchAction {
 
                 MallProduct mallProduct = new MallProduct();
                 mallProduct.setGoodsId(goodsId);
+                int userId = (int)request.getSession().getAttribute("uid");
                 mallProduct.setSellUserId(userId);
                 mallProduct.setName(product_name);
                 mallProduct.setPic("");//是否需要此字段？应该加一个SKU编码字段？
