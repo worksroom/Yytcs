@@ -444,7 +444,7 @@
 
         <div title="订单管理">
             <ul class="menulist">
-                <li url="crm/Customer/customer.aspx" tabid="tabid2-4" menuno="4" class=""><img src="images/icon/61.png"><span>用户下单查询</span>
+                <li url="manager/order/orderList.jsp" tabid="tabid2-4" menuno="4" class=""><img src="images/icon/61.png"><span>订单查询</span>
                     <div class="menuitem-l"></div>
                     <div class="menuitem-r"></div>
                 </li>
