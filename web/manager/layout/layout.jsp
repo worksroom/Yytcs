@@ -454,7 +454,7 @@
                     <div class="menuitem-r"></div>
                 </li>
 
-                <li url="manager/info/supplyList.jsp" tabid="tabid3-4" menuno="4" class=""><img src="images/icon/61.png"><span>资讯管理</span>
+                <li url="manager/info/supplyList.jsp" tabid="tabid3-5" menuno="4" class=""><img src="images/icon/61.png"><span>资讯管理</span>
                     <div class="menuitem-l"></div>
                     <div class="menuitem-r"></div>
                 </li>
