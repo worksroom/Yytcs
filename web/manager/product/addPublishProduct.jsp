@@ -166,7 +166,7 @@
         function startLoad() {
             var url = contextPath+"/manager/swfupload.do?method=upload"; //处理上传的servlet
             var sizeLimit = "1 MB";// 文件的大小  注意: 中间要有空格
-            var types = "*.jpg;*.jpeg;*.gif"; //注意是 " ; " 分割
+            var types = "*.jpg;*.jpeg;*.gif;*.png"; //注意是 " ; " 分割
             var typesdesc = "web iamge file"; //这里可以自定义
             var uploadLimit = 20;  //上传文件的 个数
             initSwfupload(url, sizeLimit, types, typesdesc, uploadLimit);

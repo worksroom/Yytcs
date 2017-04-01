@@ -19,6 +19,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by leo on 2017/2/17.
@@ -66,14 +67,14 @@ public class SwfUploadAction extends DispatchAction {
                     if (item.isFormField()) {
                         continue;
                     } else {
-                        //以当前精确到秒的日期为上传的文件的文件名
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddkkmmss");
                         String path = "/images";
-                        File savedFile = new File(rootPath + path, item.getName());
+                        String fileName = UUID.randomUUID().toString();
+                        String imgType = item.getName().substring(item.getName().lastIndexOf('.'));
+                        File savedFile = new File(rootPath + path, fileName + imgType);
                         item.write(savedFile);
 
                         result.put("status", this.UPLOAD_SUCCSSS );
-                        result.put("message", path + "/" + item.getName());
+                        result.put("message", path + File.separator + fileName + imgType);
                     }
                 }
             }
