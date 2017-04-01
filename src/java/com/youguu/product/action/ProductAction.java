@@ -82,20 +82,24 @@ public class ProductAction extends DispatchAction {
 
         int classId = ParamUtil.CheckParam(request.getParameter("classId"), 0);
 
-        List<MallProductCategoryPro> list = productRpcService.findProByClassId(classId);
+        List<CategoryPro> categoryProList = productRpcService.findProValueByClassId(classId);
 
         JSONObject jsonObject = new JSONObject();
-        if(list!=null && list.size()>0){
-            List<ProComboBoxVO> boxVOList = new ArrayList<>();
-            for(MallProductCategoryPro categoryPro : list){
-                ProComboBoxVO vo = new ProComboBoxVO();
-                vo.setId(categoryPro.getId());
-                vo.setName(categoryPro.getName());
-                vo.setIsMultiple(categoryPro.getIsMultiple());
-                vo.setIsNeed(categoryPro.getIsNeed());
-                vo.setIsSku(categoryPro.getIsSku());
+        if(categoryProList!=null){
 
-                List<MallProductCategoryProValue> valueList = productRpcService.findProValueByProId(categoryPro.getId());
+            List<ProComboBoxVO> boxVOList = new ArrayList<>();
+
+            for(CategoryPro categoryPro : categoryProList){
+                MallProductCategoryPro mpcp = categoryPro.getPro();
+                List<MallProductCategoryProValue> valueList = categoryPro.getValues();
+
+                ProComboBoxVO vo = new ProComboBoxVO();
+                vo.setId(mpcp.getId());
+                vo.setName(mpcp.getName());
+                vo.setIsMultiple(mpcp.getIsMultiple());
+                vo.setIsNeed(mpcp.getIsNeed());
+                vo.setIsSku(mpcp.getIsSku());
+
                 if(valueList!=null && !valueList.isEmpty()){
                     List<ProValueVO> valueVOList = new ArrayList<>();
                     for(MallProductCategoryProValue proValue : valueList){
@@ -107,7 +111,9 @@ public class ProductAction extends DispatchAction {
                     vo.setList(valueVOList);
                 }
                 boxVOList.add(vo);
+
             }
+
             jsonObject.put("status", "0000");
             jsonObject.put("message", "ok");
             jsonObject.put("result", boxVOList);
@@ -116,7 +122,6 @@ public class ProductAction extends DispatchAction {
             jsonObject.put("message", "无数据");
             jsonObject.put("result", new ArrayList<>());
         }
-
 
         ResponseUtil.println(response, jsonObject);
         return null;

@@ -250,6 +250,13 @@
                         var proValueId = this.id;
                         prostr += '<li class="li_width"><label><input id="key_'+proId+'_'+proValueId+'" type="checkbox" class="chcBox_Width" value="'+this.name+'">'+this.name+'<span class="li_empty"> </span></label></li>';
                     });
+                }else {
+                    prostr += '<select id="pro_'+this.id+'" name="pro_'+this.id+'" style="width:300px">'
+                    $(this.list).each(function(){
+                        var proValueId = this.id;
+                        prostr += '<option value="'+proValueId+'">'+this.name+','+this.name+'</option>';
+                    });
+                    prostr += '</select>'
                 }
 
                 prostr += '</ul>';

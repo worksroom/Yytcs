@@ -191,7 +191,6 @@
                     });
                 },
                 success: function(data) {
-
                     if(data.status=="0000" && data.result.length>0){
                         prodata = data.result;//全局变量赋值
 
@@ -214,10 +213,10 @@
                             td_input.appendTo(tr);
 
                             i++;
-
-
                         });
-
+                        if(i==0){
+                            $("#second").before($('<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>'));
+                        }
                     }
                 }
             });
@@ -249,6 +248,13 @@
                         var proValueId = this.id;
                         prostr += '<li class="li_width"><label><input id="key_'+proId+'_'+proValueId+'" type="checkbox" class="chcBox_Width" value="'+this.name+'">'+this.name+'<span class="li_empty"> </span></label></li>';
                     });
+                } else {
+                    prostr += '<select id="pro_'+this.id+'" name="pro_'+this.id+'" style="width:300px">'
+                    $(this.list).each(function(){
+                        var proValueId = this.id;
+                        prostr += '<option value="'+proValueId+'">'+this.name+'</option>';
+                    });
+                    prostr += '</select>'
                 }
 
                 prostr += '</ul>';
@@ -367,8 +373,8 @@
             <td class="table_title1" colspan="6">商品图片</td>
         </tr>
         <tr>
-            <td colspan="5">
-                <div id="imgDiv">
+            <td colspan="5" >
+                <div id="imgDiv" style="width: 500px;">
                     <img id="img_1" src="resources/images/picture.jpg" alt="Logo" style="width:80px;height:80px;">
                     <img id="img_2" src="resources/images/picture.jpg" alt="Logo" style="width:80px;height:80px;">
                     <img id="img_3" src="resources/images/picture.jpg" alt="Logo" style="width:80px;height:80px;">

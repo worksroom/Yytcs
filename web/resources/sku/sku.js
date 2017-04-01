@@ -35,6 +35,8 @@
                 }
                 //var skuValue = SKUObj.find("li").eq(index).html();
             });
+
+
             //开始创建Table表
             if (bCheck == true) {
                 var RowsCount = 0;
